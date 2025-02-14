@@ -2,6 +2,7 @@
 	"name": "@adamdickinson/pulse",
 	"main": "dist/index.js",
 	"scripts": {
+		"build": "bun run src/build.ts",
 		"start": "bun run src/server.ts"
 	},
 	"devDependencies": {
