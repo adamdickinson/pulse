@@ -1,0 +1,13 @@
+:root {
+	body {
+		/* background-color: var(--mantine-color-violet-4);
+		color: #fff; */
+	}
+	@mixin light {
+		--mantine-color-body: var(--mantine-color-violet-3);
+	}
+
+	@mixin dark {
+		--mantine-color-body: var(--mantine-color-violet-8);
+	}
+}
