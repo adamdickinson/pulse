@@ -12,10 +12,7 @@ import { Form, useForm } from '@mantine/form'
 import React, { useEffect } from 'react'
 import { useLogMetric } from '../../api/metric/use-log-metric'
 import { MetricNotFoundPage } from '../metric-not-found'
-import {
-	validationSchema as logEntryValidationSchema,
-	type LogEntry,
-} from '../../schemas/log-entry'
+import type { LogEntry } from '../../schemas/log-entry'
 
 const LogMetricPage = () => {
 	const { id } = useParams()
@@ -24,7 +21,7 @@ const LogMetricPage = () => {
 	const [log] = useLogMetric({})
 
 	const form = useForm<Partial<LogEntry>>({
-		mode: 'controlled',
+		mode: 'uncontrolled',
 		initialValues: { metricId: id, values: [] },
 	})
 
@@ -42,9 +39,8 @@ const LogMetricPage = () => {
 
 	const navigate = useNavigate()
 
-	const handleSubmit = async (data: unknown) => {
-		const newLog = logEntryValidationSchema.parse(data)
-		await log(newLog)
+	const handleSubmit = async (data: Record<string, unknown>) => {
+		await log(data)
 		navigate(`/metrics/${id}`)
 	}
 

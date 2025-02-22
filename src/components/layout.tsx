@@ -1,20 +1,22 @@
 import {
 	AppShell,
+	Avatar,
 	Box,
 	Button,
 	Container,
 	Flex,
 	Group,
+	Menu,
 	Text,
 } from '@mantine/core'
-import { IconActivityHeartbeat } from '@tabler/icons-react'
+import { IconActivityHeartbeat, IconLogout } from '@tabler/icons-react'
 import { Link, Outlet, useMatch, useMatches } from 'react-router'
 import { useAuth } from '../context/auth'
 
 const Layout = () => {
 	const isOnLogsPage = useMatch('/logs')
 	const isOnMetricsPage = useMatch('/metrics')
-	const { user } = useAuth()
+	const { user, logOut } = useAuth()
 
 	return (
 		<AppShell padding="md" header={{ height: 60 }}>
@@ -38,7 +40,7 @@ const Layout = () => {
 							</Text>
 						</Group>
 						{!!user && (
-							<Flex>
+							<Group>
 								<Button
 									component={Link}
 									variant={isOnMetricsPage ? 'filled' : 'transparent'}
@@ -46,7 +48,26 @@ const Layout = () => {
 								>
 									Metrics
 								</Button>
-							</Flex>
+								<Menu>
+									<Menu.Target>
+										<Avatar
+											src={user.picture}
+											alt={`${user.givenName} ${user.familyName}`}
+											name={`${user.givenName} ${user.familyName}`}
+											color="initials"
+										/>
+									</Menu.Target>
+
+									<Menu.Dropdown>
+										<Menu.Item
+											leftSection={<IconLogout size={14} />}
+											onClick={logOut}
+										>
+											Sign out
+										</Menu.Item>
+									</Menu.Dropdown>
+								</Menu>
+							</Group>
 						)}
 					</Flex>
 				</Container>

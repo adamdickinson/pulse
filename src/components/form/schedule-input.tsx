@@ -32,10 +32,7 @@ const ScheduleInput = ({ defaultValue = [], value, onChange }: Props) => {
 	const [uncontrolledValue, handleChange] = useUncontrolled({
 		value,
 		defaultValue,
-		onChange: (value) => {
-			console.log(value)
-			onChange(value)
-		},
+		onChange,
 	})
 
 	const weekdays = uncontrolledValue.map(({ start }) =>
@@ -66,7 +63,9 @@ const ScheduleInput = ({ defaultValue = [], value, onChange }: Props) => {
 		handleChange(
 			uncontrolledValue.map((recurrence) => ({
 				...recurrence,
-				start: recurrence.start.withPlainTime(plainTime),
+				start: Temporal.PlainDateTime.from(recurrence.start).withPlainTime(
+					plainTime,
+				),
 			})),
 		)
 	}

@@ -47,7 +47,6 @@ const SignInButton = ({ onSuccess }: Props) => {
 					onSuccess({ email, familyName, givenName, picture })
 				},
 			})
-
 			google.accounts.id.renderButton(element, { type: 'standard' })
 		}
 

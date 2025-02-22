@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"lib": ["DOM"],
 		// Enable latest features
 		"module": "preserve",
 		"jsx": "react-jsx",

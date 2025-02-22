@@ -50,7 +50,7 @@ const AddMetricPage = () => {
 
 	return (
 		<Form form={form} onSubmit={create}>
-			<Title>Edit Metric</Title>
+			<Title>Add Metric</Title>
 			<Text mt="sm">
 				A metric is something you want to track. It could be your average heart
 				rate, blood pressure, or a daily diary.

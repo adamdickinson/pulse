@@ -13,7 +13,14 @@ const useUpcomingReminders = () => {
 			)
 			.filter(({ routine: { start, interval } }) => {
 				const firstTime = Temporal.PlainDateTime.from(start)
-				if (interval === 'weekly') return now.dayOfWeek === firstTime.dayOfWeek
+				if (interval === 'weekly')
+					return (
+						now.dayOfWeek === firstTime.dayOfWeek &&
+						Temporal.PlainTime.compare(
+							firstTime.toPlainTime(),
+							now.toPlainTime(),
+						) >= 0
+					)
 				throw new Error('Only weekly is supported')
 			})
 	}, [metrics])

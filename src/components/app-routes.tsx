@@ -32,7 +32,9 @@ const AppRoutes = () => {
 			)}
 			{!user && (
 				<Routes>
-					<Route path="*" element={<SignInPage />} />
+					<Route element={<Layout />}>
+						<Route path="*" element={<SignInPage />} />
+					</Route>
 				</Routes>
 			)}
 		</>
