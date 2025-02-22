@@ -14,7 +14,7 @@ const useLogMetric = ({ onSuccess }: Props) => {
 			if (!db) return
 			const createdEntry = {
 				...logEntry,
-				id: randomId('log'),
+				id: randomId(),
 				createdAt: Date.now(),
 			}
 			await db.logEntries.insert(createdEntry)

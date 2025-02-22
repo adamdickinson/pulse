@@ -1,10 +1,12 @@
 import {
 	toTypedRxJsonSchema,
 	type ExtractDocumentTypeFromTypedRxJsonSchema,
+	type RxDocument,
 	type RxJsonSchema,
 } from 'rxdb'
+import { z } from 'zod'
 
-const logEntrySchema = {
+const jsonSchema = {
 	title: 'Log Entry',
 	description: 'A recording of a logEntry.',
 	version: 0,
@@ -13,7 +15,7 @@ const logEntrySchema = {
 	properties: {
 		id: { type: 'string', maxLength: 100 },
 		createdAt: { type: 'integer' },
-		metricName: { type: 'string', maxLength: 100 },
+		metricId: { type: 'string', maxLength: 100 },
 		values: {
 			type: 'array',
 			items: {
@@ -25,12 +27,25 @@ const logEntrySchema = {
 			},
 		},
 	},
-	required: ['id', 'createdAt', 'metricName', 'values'],
-} as const satisfies RxJsonSchema<any>
+	required: ['id', 'createdAt', 'metricId', 'values'],
+} as const
 
-const schemaType = toTypedRxJsonSchema(logEntrySchema)
+const schemaType = toTypedRxJsonSchema(jsonSchema)
+
+const validationSchema = z.object({
+	id: z.string().max(100),
+	createdAt: z.number(),
+	metricId: z.string().max(100),
+	values: z.array(
+		z.object({
+			measurement: z.string(),
+			value: z.string(),
+		}),
+	),
+})
 
 type LogEntry = ExtractDocumentTypeFromTypedRxJsonSchema<typeof schemaType>
+type LogEntryDocument = RxDocument<LogEntry>
 
-export { logEntrySchema }
-export type { LogEntry }
+export { jsonSchema, validationSchema }
+export type { LogEntry, LogEntryDocument }

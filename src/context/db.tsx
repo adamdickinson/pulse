@@ -19,6 +19,10 @@ const DbProvider = ({ children }: Props) => {
 	return null
 }
 
-const useDb = () => useContext(Context)!
+const useDb = () => {
+	const db = useContext(Context)
+	if (!db) throw new Error('Db context not available')
+	return db
+}
 
 export { useDb, DbProvider }

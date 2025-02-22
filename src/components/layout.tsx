@@ -9,10 +9,12 @@ import {
 } from '@mantine/core'
 import { IconActivityHeartbeat } from '@tabler/icons-react'
 import { Link, Outlet, useMatch, useMatches } from 'react-router'
+import { useAuth } from '../context/auth'
 
 const Layout = () => {
 	const isOnLogsPage = useMatch('/logs')
 	const isOnMetricsPage = useMatch('/metrics')
+	const { user } = useAuth()
 
 	return (
 		<AppShell padding="md" header={{ height: 60 }}>
@@ -22,6 +24,7 @@ const Layout = () => {
 						<Group
 							component={Link}
 							gap="sm"
+							// @ts-expect-error -- bad types for Group
 							to="/"
 							td="none"
 							style={{ color: 'inherit' }}
@@ -30,26 +33,21 @@ const Layout = () => {
 								size="48"
 								color="var(--mantine-color-violet-5)"
 							/>
-							<Text visibleFrom="sm" fw="bold" size="lg">
+							<Text fw="bold" size="lg">
 								Pulse
 							</Text>
 						</Group>
-						<Flex gap="xs">
-							<Button
-								component={Link}
-								variant={isOnLogsPage ? 'filled' : 'light'}
-								to="/logs"
-							>
-								Logs
-							</Button>
-							<Button
-								component={Link}
-								variant={isOnMetricsPage ? 'filled' : 'light'}
-								to="/metrics"
-							>
-								Metrics
-							</Button>
-						</Flex>
+						{!!user && (
+							<Flex>
+								<Button
+									component={Link}
+									variant={isOnMetricsPage ? 'filled' : 'transparent'}
+									to="/metrics"
+								>
+									Metrics
+								</Button>
+							</Flex>
+						)}
 					</Flex>
 				</Container>
 			</AppShell.Header>

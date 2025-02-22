@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
-import { build, type HTMLBundle } from 'bun'
-import home from './index.html'
+import { build, file, Glob, write, type HTMLBundle } from 'bun'
+import { basename } from 'node:path'
 
 const server = Bun.serve({
 	// Enable development mode for:
@@ -11,8 +11,17 @@ const server = Bun.serve({
 	// Handle API requests
 	async fetch(req) {
 		const path = new URL(req.url).pathname
-		if (path.startsWith('/static/'))
+		if (path === '/service-worker.js') {
+			return new Response(Bun.file('./dist/service-worker.js'))
+		}
+		if (path.startsWith('/static/')) {
 			return new Response(Bun.file(`./dist/${path.slice(8)}`))
+		}
+
+		const publicGlob = new Glob('public/*')
+		for await (const filepath of publicGlob.scan(process.cwd())) {
+			await write(`dist/${basename(filepath)}`, file(filepath))
+		}
 
 		await build({
 			entrypoints: ['./src/entry.tsx'],
@@ -21,7 +30,11 @@ const server = Bun.serve({
 		})
 
 		// Return 404 for unmatched routes
-		return new Response(Bun.file('./src/index.html'))
+		return new Response(Bun.file('./src/index.html'), {
+			headers: {
+				'Referrer-Policy': 'no-referrer-when-downgrade',
+			},
+		})
 	},
 })
 

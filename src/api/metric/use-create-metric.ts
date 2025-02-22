@@ -1,15 +1,18 @@
-import { useCallback } from 'react'
-import type { Metric } from '../../schemas/metric'
+import {
+	validationSchema as metricValidationSchema,
+	type Metric,
+} from '../../schemas/metric'
 import { useDb } from '../../context/db'
 
-interface Props {
+interface Options {
 	onSuccess?(metric: Metric): void
 }
 
-const useCreateMetric = ({ onSuccess }: Props) => {
+const useCreateMetric = ({ onSuccess }: Options) => {
 	const db = useDb()
 	return [
-		async (metric: Metric) => {
+		async (rawMetric: unknown) => {
+			const metric = metricValidationSchema.parse(rawMetric)
 			if (!db) return
 			await db.metrics.insert(metric)
 			onSuccess?.(metric)
