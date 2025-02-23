@@ -11,7 +11,6 @@ import { EditMetricPage } from './pages/edit-metric'
 
 const AppRoutes = () => {
 	const { user } = useAuth()
-	console.log({ user })
 	return (
 		<>
 			{!!user && (
