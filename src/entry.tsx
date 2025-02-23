@@ -26,10 +26,12 @@ const registerServiceWorker = async () => {
 
 registerServiceWorker()
 
-Notification.requestPermission().then((result) => {
+Notification.requestPermission().then(async (result) => {
 	if (result === 'granted') {
-		navigator.serviceWorker.ready.then((registration) => {
-			registration.showNotification('Vibration Sample', {
+		alert('Granted')
+		navigator.serviceWorker.ready.then(async (registration) => {
+			await registration.showNotification('Hello')
+			await registration.showNotification('Vibration Sample', {
 				body: 'Buzz! Buzz!',
 				tag: 'vibration-sample',
 			})
