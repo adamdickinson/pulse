@@ -18,18 +18,18 @@ const putInCache = async (request, response) => {
 	await cache.put(request, response)
 }
 
-const cacheFirst = async (request) => {
-	const responseFromCache = await caches.match(request)
-	if (responseFromCache) {
-		return responseFromCache
+const networkFirst = async (request) => {
+	try {
+		const responseFromNetwork = await fetch(request)
+		putInCache(request, responseFromNetwork.clone())
+		return responseFromNetwork
+	} catch {
+		return caches.match(request)
 	}
-	const responseFromNetwork = await fetch(request)
-	putInCache(request, responseFromNetwork.clone())
-	return responseFromNetwork
 }
 
 self.addEventListener('fetch', (event) => {
-	event.respondWith(cacheFirst(event.request))
+	event.respondWith(networkFirst(event.request))
 })
 
 // Register event listener for the 'push' event.
