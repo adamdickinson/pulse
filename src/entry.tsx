@@ -24,7 +24,7 @@ const registerServiceWorker = async () => {
 	}
 }
 
-// registerServiceWorker()
+registerServiceWorker()
 
 Notification.requestPermission().then((result) => {
 	if (result === 'granted') {
