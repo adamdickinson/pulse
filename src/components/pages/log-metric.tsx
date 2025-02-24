@@ -2,6 +2,7 @@ import {
 	Button,
 	Skeleton,
 	Stack,
+	TagsInput,
 	Textarea,
 	TextInput,
 	Title,
@@ -12,11 +13,31 @@ import { Form, useForm } from '@mantine/form'
 import React, { useEffect } from 'react'
 import { useLogMetric } from '../../api/metric/use-log-metric'
 import { MetricNotFoundPage } from '../metric-not-found'
-import type { LogEntry } from '../../schemas/log-entry'
+import {
+	validationSchema as logEntryValidationSchema,
+	type LogEntry,
+} from '../../schemas/log-entry'
+import { useMetricLogs } from '../../api/metric/use-metric-logs'
+import { filter, flatMap, groupBy, mapValues, pipe, prop } from 'remeda'
 
 const LogMetricPage = () => {
 	const { id } = useParams()
 	const metric = useMetric(id)
+	const logs = useMetricLogs(id)
+	console.log(logs)
+
+	const selectedValues = pipe(
+		logs ?? [],
+		flatMap(prop('values')),
+		filter(
+			(item): item is { measurement: string; value: string } =>
+				!!item.measurement && !!item.value,
+		),
+		groupBy(prop('measurement')),
+		mapValues((values) =>
+			values.map(prop('value')).flatMap((value) => value.split(',')),
+		),
+	)
 
 	const [log] = useLogMetric({})
 
@@ -63,6 +84,12 @@ const LogMetricPage = () => {
 						{measurement.type === 'Paragraph' && (
 							<Textarea
 								label={measurement.name}
+								{...form.getInputProps(`values.${index}.value`)}
+							/>
+						)}
+						{measurement.type === 'Choice' && (
+							<TagsInput
+								data={selectedValues[measurement.name]}
 								{...form.getInputProps(`values.${index}.value`)}
 							/>
 						)}

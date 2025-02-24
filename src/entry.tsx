@@ -28,14 +28,7 @@ registerServiceWorker()
 
 Notification.requestPermission().then(async (result) => {
 	if (result === 'granted') {
-		alert('Granted')
-		navigator.serviceWorker.ready.then(async (registration) => {
-			await registration.showNotification('Hello')
-			await registration.showNotification('Vibration Sample', {
-				body: 'Buzz! Buzz!',
-				tag: 'vibration-sample',
-			})
-		})
+		navigator.serviceWorker.ready.then(async (registration) => {})
 	}
 })
 

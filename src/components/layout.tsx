@@ -31,10 +31,33 @@ const Layout = () => {
 							td="none"
 							style={{ color: 'inherit' }}
 						>
-							<IconActivityHeartbeat
-								size="48"
-								color="var(--mantine-color-violet-5)"
-							/>
+							<Text variant="gradient">
+								<IconActivityHeartbeat
+									size="48"
+									strokeWidth={1.5}
+									style={{ stroke: 'url(#gradient1)' }}
+								>
+									<defs>
+										<linearGradient
+											id="gradient1"
+											gradientUnits="userSpaceOnUse"
+											x1="0"
+											x2="24"
+											y1="24"
+											y2="0"
+										>
+											<stop
+												offset="0%"
+												stopColor="var(--mantine-color-pink-4)"
+											/>
+											<stop
+												offset="100%"
+												stopColor="var(--mantine-color-violet-5)"
+											/>
+										</linearGradient>
+									</defs>
+								</IconActivityHeartbeat>
+							</Text>
 							<Text fw="bold" size="lg">
 								Pulse
 							</Text>

@@ -74,7 +74,7 @@ const AddMetricPage = () => {
 								/>
 								<Select
 									flex="1 1 0"
-									data={['Number', 'Paragraph']}
+									data={['Number', 'Paragraph', 'Choice', 'Rating']}
 									placeholder="Type"
 									{...form.getInputProps(`measurements.${index}.type`)}
 									key={form.key(`measurements.${index}.type`)}

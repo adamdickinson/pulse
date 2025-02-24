@@ -31,12 +31,3 @@ const networkFirst = async (request) => {
 self.addEventListener('fetch', (event) => {
 	event.respondWith(networkFirst(event.request))
 })
-
-// Register event listener for the 'push' event.
-self.addEventListener('push', (event) => {
-	event.waitUntil(
-		self.registration.showNotification('ServiceWorker Cookbook', {
-			body: 'Alea iacta est',
-		}),
-	)
-})

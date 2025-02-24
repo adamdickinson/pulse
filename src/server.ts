@@ -14,6 +14,7 @@ const server = Bun.serve({
 		if (path === '/service-worker.js') {
 			return new Response(Bun.file('./dist/service-worker.js'))
 		}
+
 		if (path.startsWith('/static/')) {
 			return new Response(Bun.file(`./dist/${path.slice(8)}`))
 		}

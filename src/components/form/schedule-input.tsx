@@ -51,7 +51,7 @@ const ScheduleInput = ({ defaultValue = [], value, onChange }: Props) => {
 				const numericWeekday = Number.parseInt(weekday, 10)
 				const date = now
 					.withPlainTime(time)
-					.with({ day: now.day + ((numericWeekday - now.dayOfWeek + 7) % 7) })
+					.add({ days: numericWeekday - now.dayOfWeek })
 
 				return { start: date, interval: 'weekly' }
 			}),

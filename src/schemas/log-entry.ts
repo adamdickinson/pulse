@@ -39,7 +39,10 @@ const validationSchema = z.object({
 	values: z.array(
 		z.object({
 			measurement: z.string(),
-			value: z.string(),
+			value: z.union([
+				z.array(z.string()).transform((value) => value.join(',')),
+				z.string(),
+			]),
 		}),
 	),
 })

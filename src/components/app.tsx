@@ -12,6 +12,11 @@ const ROLLBAR_CONFIG = {
 }
 
 const theme = createTheme({
+	defaultGradient: {
+		from: 'pink.5',
+		to: 'violet',
+		deg: 45,
+	},
 	fontFamily: 'Funnel Display, sans-serif',
 	primaryColor: 'violet',
 })

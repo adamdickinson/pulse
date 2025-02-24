@@ -10,6 +10,7 @@ const setupDatabase = async () => {
 
 	const db = await createRxDatabase({
 		name: 'pulse',
+		ignoreDuplicate: true,
 		storage: wrappedValidateAjvStorage({ storage: getRxStorageDexie() }),
 		eventReduce: true,
 	})
