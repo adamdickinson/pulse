@@ -6,7 +6,7 @@ import { Avatar, Stack, Text, Title } from '@mantine/core'
 const SignInPage = () => {
 	const { logIn } = useAuth()
 	return (
-		<Stack align="center">
+		<Stack align="center" py="xl">
 			<Avatar color="cyan" variant="gradient" size={80}>
 				<IconActivityHeartbeat
 					size="15em"

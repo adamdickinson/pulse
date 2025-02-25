@@ -25,13 +25,18 @@ const server = Bun.serve({
 		}
 
 		await build({
-			entrypoints: ['./src/entry.tsx'],
+			entrypoints: ['./public/index.html'],
 			outdir: 'dist',
-			target: 'browser',
+			minify: {
+				whitespace: true,
+				identifiers: true,
+				syntax: true,
+			},
+			throw: true,
 		})
 
 		// Return 404 for unmatched routes
-		return new Response(Bun.file('./src/index.html'), {
+		return new Response(Bun.file('./public/index.html'), {
 			headers: {
 				'Referrer-Policy': 'no-referrer-when-downgrade',
 			},
