@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { z } from 'zod'
+import { useDb } from './db'
+import { useFirestoreReplication } from '../hooks/use-firestore-replication'
 
 interface Api {
 	user: User | null
@@ -34,6 +36,7 @@ interface Props {
 
 const AuthProvider = ({ children }: Props) => {
 	const [user, setUser] = useState<User | null>(getUser)
+	useFirestoreReplication(user)
 
 	const logIn = (user: User) => {
 		window.localStorage.setItem('login', JSON.stringify(user))

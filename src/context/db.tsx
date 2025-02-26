@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { RxDatabase } from 'rxdb'
+import { replicateFirestore } from 'rxdb/plugins/replication-firestore'
 import { setupDatabase } from '../helpers/db'
+import { setupFirestore } from '../helpers/use-firestore-replication'
 
 interface Props {
 	children: React.ReactNode
@@ -12,7 +14,10 @@ const DbProvider = ({ children }: Props) => {
 	const [db, setDb] = useState<RxDatabase | undefined>(undefined)
 
 	useEffect(() => {
-		setupDatabase().then(setDb)
+		setupDatabase().then((db) => {
+			setDb(db)
+
+		})
 	}, [])
 
 	if (db) return <Context.Provider value={db}>{children}</Context.Provider>

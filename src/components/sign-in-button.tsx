@@ -39,22 +39,21 @@ const SignInButton = ({ onSuccess }: Props) => {
 		const initialise = () => {
 			google.accounts.id.initialize({
 				auto_select: true,
-				client_id:
-					'1074289759550-jpdbi4o90m3i3tipju80dmpd3epekam4.apps.googleusercontent.com',
+				client_id: process.env.GOOGLE_ACCOUNTS_CLIENT_ID,
 				callback: ({ credential }) => {
 					const jwt = decodeJwtResponse(credential)
 					const { email, familyName, givenName, picture } = jwtSchema.parse(jwt)
 					onSuccess({ email, familyName, givenName, picture })
 				},
 			})
-			google.accounts.id.renderButton(element, { type: 'standard' })
+			google.accounts.id.renderButton(element, { type: 'icon' })
 		}
 
 		if (!('google' in window)) window.onload = () => initialise()
 		else initialise()
 	}
 
-	return <div ref={loadSigninButton} />
+	return <div ref={loadSigninButton} style={{ colorScheme: 'light' }} />
 }
 
 export { SignInButton }

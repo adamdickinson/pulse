@@ -89,6 +89,8 @@ const LogMetricPage = () => {
 						)}
 						{measurement.type === 'Choice' && (
 							<TagsInput
+								label={measurement.name}
+								placeholder="Type to search or enter a new value"
 								data={selectedValues[measurement.name]}
 								{...form.getInputProps(`values.${index}.value`)}
 							/>

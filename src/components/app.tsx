@@ -28,11 +28,11 @@ const App = () => {
 			<ErrorBoundary>
 				<MantineProvider theme={theme} forceColorScheme={preferredColorScheme}>
 					<BrowserRouter>
-						<AuthProvider>
-							<DbProvider>
+						<DbProvider>
+							<AuthProvider>
 								<AppRoutes />
-							</DbProvider>
-						</AuthProvider>
+							</AuthProvider>
+						</DbProvider>
 					</BrowserRouter>
 				</MantineProvider>
 			</ErrorBoundary>

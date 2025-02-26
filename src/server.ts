@@ -1,8 +1,12 @@
 #!/usr/bin/env bun
 import { build, file, Glob, write, type HTMLBundle } from 'bun'
 import { basename } from 'node:path'
+import App from '../public/index.html'
 
 const server = Bun.serve({
+	routes: {
+		'/*': App,
+	},
 	// Enable development mode for:
 	// - Detailed error messages
 	// - Rebuild on request
@@ -27,6 +31,21 @@ const server = Bun.serve({
 		await build({
 			entrypoints: ['./public/index.html'],
 			outdir: 'dist',
+			define: {
+				FIREBASE_API_KEY: JSON.stringify(Bun.env.FIREBASE_API_KEY),
+				FIREBASE_AUTH_DOMAIN: JSON.stringify(Bun.env.FIREBASE_AUTH_DOMAIN),
+				FIREBASE_PROJECT_ID: JSON.stringify(Bun.env.FIREBASE_PROJECT_ID),
+				FIREBASE_STORAGE_BUCKET: JSON.stringify(
+					Bun.env.FIREBASE_STORAGE_BUCKET,
+				),
+				FIREBASE_MESSAGING_SENDER_ID: JSON.stringify(
+					Bun.env.FIREBASE_MESSAGING_SENDER_ID,
+				),
+				FIREBASE_APP_ID: JSON.stringify(Bun.env.FIREBASE_APP_ID),
+				GOOGLE_ACCOUNTS_CLIENT_ID: JSON.stringify(
+					Bun.env.GOOGLE_ACCOUNTS_CLIENT_ID,
+				),
+			},
 			minify: {
 				whitespace: true,
 				identifiers: true,

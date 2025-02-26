@@ -6,7 +6,7 @@
 		"start": "bun run src/server.ts"
 	},
 	"devDependencies": {
-		"@types/bun": "latest",
+		"@types/bun": "^1.2.3",
 		"@types/gapi": "^0.0.47",
 		"@types/google.accounts": "^0.0.15",
 		"@types/react": "^19.0.8",
@@ -30,6 +30,7 @@
 		"@tabler/icons-react": "^3.30.0",
 		"cron-parser": "^5.0.1",
 		"date-fns": "^4.1.0",
+		"firebase": "11.3.1",
 		"google-auth-library": "^9.15.1",
 		"json-schema-to-zod": "^2.6.0",
 		"react": "^19.0.0",
@@ -38,7 +39,7 @@
 		"react-router-dom": "^7.1.5",
 		"remeda": "^2.20.2",
 		"rollbar": "^2.26.4",
-		"rxdb": "^16.6.1",
+		"rxdb": "^16.7.0",
 		"rxjs": "^7.8.1",
 		"styled-components": "^6.1.15",
 		"zod": "^3.24.2"

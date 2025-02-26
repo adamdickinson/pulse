@@ -1,6 +1,9 @@
 import {
 	Accordion,
+	Badge,
 	Button,
+	Chip,
+	ChipGroup,
 	Collapse,
 	Divider,
 	Grid,
@@ -78,16 +81,28 @@ const ViewMetricPage = () => {
 							<Collapse in={openLogs.has(log.id)} mt="sm">
 								<Divider />
 								<Stack py="sm">
-									{log.values.map(({ measurement, value }) => (
-										<Group key={measurement} c="dimmed" align="start">
-											<Title order={5} size="sm" flex="0 0 6rem">
-												{measurement}
-											</Title>
-											<Text size="xs" flex="1 1 0">
-												{value}
-											</Text>
-										</Group>
-									))}
+									{log.values.map(({ measurement, value }) => {
+										const type = metric.measurements?.find(
+											({ name }) => measurement === name,
+										)?.type
+
+										return (
+											<Group key={measurement} c="dimmed" align="start">
+												<Title order={5} size="sm" flex="0 0 6rem">
+													{measurement}
+												</Title>
+												<Group flex="1 1 0">
+													{type === 'Choice' &&
+														value?.split(',').map((badgeLabel) => (
+															<Badge size="xs" key={badgeLabel}>
+																{badgeLabel}
+															</Badge>
+														))}
+													{type !== 'Choice' && <Text size="xs">{value}</Text>}
+												</Group>
+											</Group>
+										)
+									})}
 								</Stack>
 								<Divider />
 								<Text size="xs" mt="xs" fs="italic">

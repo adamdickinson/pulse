@@ -12,6 +12,7 @@ for await (const filepath of publicGlob.scan(process.cwd())) {
 await build({
 	entrypoints: ['./public/index.html'],
 	outdir: 'dist',
+	env: 'inline',
 	minify: {
 		whitespace: true,
 		identifiers: true,
