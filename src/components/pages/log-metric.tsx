@@ -1,5 +1,7 @@
 import {
 	Button,
+	Divider,
+	Group,
 	Skeleton,
 	Stack,
 	TagsInput,
@@ -19,6 +21,7 @@ import {
 } from '../../schemas/log-entry'
 import { useMetricLogs } from '../../api/metric/use-metric-logs'
 import { filter, flatMap, groupBy, mapValues, pipe, prop, unique } from 'remeda'
+import { IconPencil } from '@tabler/icons-react'
 
 const LogMetricPage = () => {
 	const { id } = useParams()
@@ -69,34 +72,47 @@ const LogMetricPage = () => {
 
 	return (
 		<Form form={form} onSubmit={handleSubmit}>
-			<Title>{metric.name}</Title>
-			<Stack gap="sm">
-				{metric.measurements?.map((measurement, index) => (
-					<React.Fragment key={measurement.name}>
-						{measurement.type === 'Number' && (
-							<TextInput
-								label={measurement.name}
-								type="number"
-								{...form.getInputProps(`values.${index}.value`)}
-							/>
-						)}
-						{measurement.type === 'Paragraph' && (
-							<Textarea
-								label={measurement.name}
-								{...form.getInputProps(`values.${index}.value`)}
-							/>
-						)}
-						{measurement.type === 'Choice' && (
-							<TagsInput
-								label={measurement.name}
-								placeholder="Type to search or enter a new value"
-								data={selectedValues[measurement.name]}
-								{...form.getInputProps(`values.${index}.value`)}
-							/>
-						)}
-					</React.Fragment>
-				))}
-				<Button type="submit">Log</Button>
+			<Stack gap="md">
+				<Title>{metric.name}</Title>
+				<Stack gap="lg">
+					<Divider />
+
+					{metric.measurements?.map((measurement, index) => (
+						<React.Fragment key={measurement.name}>
+							{measurement.type === 'Number' && (
+								<TextInput
+									label={measurement.name}
+									type="number"
+									placeholder="Enter a number"
+									{...form.getInputProps(`values.${index}.value`)}
+								/>
+							)}
+							{measurement.type === 'Paragraph' && (
+								<Textarea
+									label={measurement.name}
+									placeholder="Write as much as you like"
+									{...form.getInputProps(`values.${index}.value`)}
+								/>
+							)}
+							{measurement.type === 'Choice' && (
+								<TagsInput
+									label={measurement.name}
+									placeholder="Type to search or enter a new value"
+									data={selectedValues[measurement.name]}
+									{...form.getInputProps(`values.${index}.value`)}
+								/>
+							)}
+						</React.Fragment>
+					))}
+					<Divider />
+				</Stack>
+				<Group justify="end">
+					<Button type="submit">
+						<Group gap="sm">
+							<IconPencil size="16" /> Log
+						</Group>
+					</Button>
+				</Group>
 			</Stack>
 		</Form>
 	)
