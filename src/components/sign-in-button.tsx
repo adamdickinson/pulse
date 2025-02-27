@@ -46,7 +46,7 @@ const SignInButton = ({ onSuccess }: Props) => {
 					onSuccess({ email, familyName, givenName, picture })
 				},
 			})
-			google.accounts.id.renderButton(element, { type: 'icon' })
+			google.accounts.id.renderButton(element, { type: 'standard' })
 		}
 
 		if (!('google' in window)) window.onload = () => initialise()

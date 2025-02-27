@@ -13,6 +13,7 @@ await build({
 	entrypoints: ['./public/index.html'],
 	outdir: 'dist',
 	env: 'inline',
+	publicPath: '/',
 	minify: {
 		whitespace: true,
 		identifiers: true,
