@@ -18,13 +18,12 @@ import {
 	type LogEntry,
 } from '../../schemas/log-entry'
 import { useMetricLogs } from '../../api/metric/use-metric-logs'
-import { filter, flatMap, groupBy, mapValues, pipe, prop } from 'remeda'
+import { filter, flatMap, groupBy, mapValues, pipe, prop, unique } from 'remeda'
 
 const LogMetricPage = () => {
 	const { id } = useParams()
 	const metric = useMetric(id)
 	const logs = useMetricLogs(id)
-	console.log(logs)
 
 	const selectedValues = pipe(
 		logs ?? [],
@@ -35,7 +34,7 @@ const LogMetricPage = () => {
 		),
 		groupBy(prop('measurement')),
 		mapValues((values) =>
-			values.map(prop('value')).flatMap((value) => value.split(',')),
+			unique(values.map(prop('value')).flatMap((value) => value.split(','))),
 		),
 	)
 
