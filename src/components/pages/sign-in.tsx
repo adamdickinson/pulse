@@ -1,7 +1,15 @@
 import { IconActivityHeartbeat, IconHeartbeat } from '@tabler/icons-react'
 import { useAuth } from '../../context/auth'
 import { SignInButton } from '../sign-in-button'
-import { Avatar, Divider, Group, Stack, Text, Title } from '@mantine/core'
+import {
+	Anchor,
+	Avatar,
+	Divider,
+	Group,
+	Stack,
+	Text,
+	Title,
+} from '@mantine/core'
 import styled, { keyframes } from 'styled-components'
 
 const heartbeat = keyframes`
@@ -32,6 +40,13 @@ const IconAvatar = styled(Avatar)`
 
 const SignInPage = () => {
 	const { logIn } = useAuth()
+
+	const clear = () => {
+		window.indexedDB.databases().then((databases) => {
+			for (const database of databases)
+				window.indexedDB.deleteDatabase(database.name)
+		})
+	}
 	return (
 		<Stack align="center" py="xl" h="100vh" justify="center">
 			<IconAvatar color="cyan" variant="gradient" size={150}>
@@ -47,6 +62,7 @@ const SignInPage = () => {
 				<Text c="dimmed">Sign in</Text>
 				<SignInButton onSuccess={logIn} />
 			</Group>
+			<Anchor onClick={clear}>Clear data</Anchor>
 		</Stack>
 	)
 }
