@@ -95,8 +95,8 @@ const Layout = () => {
 					</Flex>
 				</Container>
 			</AppShell.Header>
-			<AppShell.Main>
-				<Container size="xs" pt="lg">
+			<AppShell.Main display="flex">
+				<Container size="xs" py="md" flex="1 1 0">
 					<Outlet />
 				</Container>
 			</AppShell.Main>

@@ -5,6 +5,7 @@ import { AuthProvider } from '../context/auth'
 import { AppRoutes } from './app-routes'
 import { useColorScheme } from '@mantine/hooks'
 import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react'
+import { Notifications } from '@mantine/notifications'
 
 const ROLLBAR_CONFIG = {
 	accessToken: 'a8cd6f4bb17d45e3aa57a6ab4aeffd9d',
@@ -27,6 +28,7 @@ const App = () => {
 		<RollbarProvider config={ROLLBAR_CONFIG}>
 			<ErrorBoundary>
 				<MantineProvider theme={theme} forceColorScheme={preferredColorScheme}>
+					<Notifications />
 					<BrowserRouter>
 						<DbProvider>
 							<AuthProvider>

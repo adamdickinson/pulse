@@ -1,23 +1,52 @@
 import { IconActivityHeartbeat, IconHeartbeat } from '@tabler/icons-react'
 import { useAuth } from '../../context/auth'
 import { SignInButton } from '../sign-in-button'
-import { Avatar, Divider, Stack, Text, Title } from '@mantine/core'
+import { Avatar, Divider, Group, Stack, Text, Title } from '@mantine/core'
+import styled, { keyframes } from 'styled-components'
+
+const heartbeat = keyframes`
+	0% {
+		transform: scale(0.97);
+	}
+
+	5% {
+		transform: scale(1);
+	}
+
+	33% {
+		transform: scale(0.97);
+	}
+
+	38% {
+		transform: scale(1);
+	}
+
+	100% {
+		transform: scale(0.97);
+	}
+`
+
+const IconAvatar = styled(Avatar)`
+	animation: ${heartbeat} 2s ease-out infinite;
+`
 
 const SignInPage = () => {
 	const { logIn } = useAuth()
 	return (
 		<Stack align="center" py="xl" h="100vh" justify="center">
-			<Avatar color="cyan" variant="gradient" size={120}>
+			<IconAvatar color="cyan" variant="gradient" size={150}>
 				<IconActivityHeartbeat
 					size="18em"
 					strokeWidth={1.6}
 					style={{ stroke: 'var(--mantine-color-body)' }}
 				/>
-			</Avatar>
+			</IconAvatar>
 			<Title fw="light">Pulse</Title>
-			<Divider w={50} mb="xl" mt="sm" />
-			<Text c="dimmed">Log in to get started</Text>
-			<SignInButton onSuccess={logIn} />
+			<Divider w={50} mb="sm" mt="5vh" />
+			<Group>
+				<Text c="dimmed">Sign in</Text>
+				<SignInButton onSuccess={logIn} />
+			</Group>
 		</Stack>
 	)
 }

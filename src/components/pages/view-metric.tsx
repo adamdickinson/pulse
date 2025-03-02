@@ -2,39 +2,41 @@ import {
 	Accordion,
 	Badge,
 	Button,
-	Chip,
-	ChipGroup,
 	Collapse,
 	Divider,
-	Grid,
 	Group,
 	Skeleton,
 	Stack,
-	Table,
 	Text,
-	Textarea,
-	TextInput,
 	Timeline,
 	Title,
 } from '@mantine/core'
-import { Fragment, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router'
 import { useMetric } from '../../api/metric/use-metric'
 import { MetricNotFoundPage } from '../metric-not-found'
 import { useMetricLogs } from '../../api/metric/use-metric-logs'
 import { format, formatDistanceToNow } from 'date-fns'
-import {
-	IconChevronDown,
-	IconChevronRight,
-	IconPin,
-	IconRuler,
-	IconRuler2,
-} from '@tabler/icons-react'
+import { IconChevronDown, IconChevronRight } from '@tabler/icons-react'
+import { useDeleteMetric } from '../../api/metric/use-delete-metric'
+import { notifications } from '@mantine/notifications'
 
 const ViewMetricPage = () => {
 	const { id } = useParams()
 	const metric = useMetric(id)
 	const logs = useMetricLogs(id)
+	const navigate = useNavigate()
+
+	const [deleteMetric] = useDeleteMetric({
+		name: id,
+		onSuccess: () => {
+			notifications.show({
+				title: 'Deleted',
+				message: `Metric ${metric?.name ?? ''} has been deleted.`,
+			})
+			navigate('/metrics')
+		},
+	})
 
 	const [openLogs, setOpenLogs] = useState<Set<string>>(new Set())
 
@@ -50,7 +52,7 @@ const ViewMetricPage = () => {
 	if (metric === undefined) return <Skeleton />
 
 	return (
-		<Stack>
+		<Stack h="100%">
 			<Group>
 				<Title flex="1 1 0">{metric.name}</Title>
 				<Button component={Link} to="log">
@@ -61,7 +63,9 @@ const ViewMetricPage = () => {
 				</Button>
 			</Group>
 
-			<Accordion>
+			<Divider />
+
+			<Accordion flex="1 1 auto">
 				<Timeline bulletSize={24} lineWidth={2}>
 					{logs?.map((log) => (
 						<Timeline.Item
@@ -114,6 +118,13 @@ const ViewMetricPage = () => {
 					))}
 				</Timeline>
 			</Accordion>
+			<Divider />
+
+			<Group justify="end">
+				<Button color="red" onClick={deleteMetric}>
+					Delete
+				</Button>
+			</Group>
 		</Stack>
 	)
 }

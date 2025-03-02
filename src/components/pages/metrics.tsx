@@ -16,16 +16,17 @@ import { useMetrics } from '../../api/metric/use-metrics'
 import { Link } from 'react-router'
 import styled from 'styled-components'
 
-const BackgroundButton = styled(Button)<{ $src: string }>`
+const BackgroundButton = styled(Button)<{ $src?: string }>`
 	position: relative;
 
 	&:before {
-		background-image: url(${({ $src }) => $src});
+		${({ $src }) => ($src ? `background-image: url(${$src});` : '')}
 		background-size: cover;
+		background-position: 50% 50%;
 		content: "";
 		height: 100%;
 		left: 0;
-		opacity: 0.1;
+		opacity: 0.3;
 		top: 0;
 		transform: none;
 		transition: 0.15s transform, 0.15s blur;

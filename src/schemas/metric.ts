@@ -15,6 +15,7 @@ const jsonSchema = {
 	properties: {
 		id: { type: 'string', maxLength: 100 },
 		name: { type: 'string' },
+		imageUrl: { type: 'string' },
 		schedule: {
 			type: 'array',
 			items: {
